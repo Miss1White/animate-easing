@@ -1,0 +1,214 @@
+<%@ val isLogin : Boolean = false %>
+<%@ val email : String = "" %>
+<%@ val uid : String = "" %>
+<%@ val loginUrl : String = "" %>
+
+<%
+	val currentUrl = request.getRequestURL.toString
+	println(currentUrl)
+	var isOnline = false
+	if(currentUrl.contains("mainsite") || currentUrl.contains("10.171.240.6")){
+		isOnline = false
+		}else {
+		isOnline = true
+    }
+
+	val cookies = request.getCookies
+	var acc = ""
+	for(c <- cookies) {
+	val cookieName = c.getName
+	if("uname".equals(cookieName)) acc =java.net.URLDecoder.decode(c.getValue)
+	}
+
+%>
+
+<div class='header'>
+	<div id="header-wrap">
+	    <div id="header">
+	        <input type="hidden" id="ua" value="${uid}"/>
+	        <input type="hidden" id="ub" value="${acc}"/>
+		    <h1 id="logo"><a href="http://www.coolchuan.com/" target='_blank'>酷传</a></h1>
+	      	<ul class="topbar">
+	      	    <li>
+					#if(isOnline)
+						#if(!isLogin)
+						<a href="http://user.coolchuan.com/user/login" title="登录酷传" class='login' onclick="countIndex({type:'按钮',opra:'单击事件',label:'登录'})" >登录</a> - <a href="javascript:void(0)" title="注册酷传"  id="register_header" class='register' onclick="countIndex({type:'按钮',opra:'单击事件',label:'注册'})">注册</a>
+						#end
+						#if(isLogin)
+						<span style="margin-right: 10px;">${acc}</span><a href="javascript:void(0)" class="exit" id="exit_header" title="退出登录" onclick="countIndex({type:'按钮',opra:'单击事件',label:'退出'})">退出</a>
+						#end
+					#else
+						#if(!isLogin)
+						<a href="http://mainsite.coolchuan.com:8089/user/login" title="登录酷传" class='login' onclick="countIndex({type:'按钮',opra:'单击事件',label:'登录'})" >登录</a> - <a href="javascript:void(0)" title="注册酷传"  id="register_header" class='register' onclick="countIndex({type:'按钮',opra:'单击事件',label:'注册'})">注册</a>
+						#end
+						#if(isLogin)
+						<span style="margin-right: 10px;">${acc}</span><a href="javascript:void(0)" class="exit" id="exit_header" title="退出登录" onclick="countIndex({type:'按钮',opra:'单击事件',label:'退出'})">退出</a>
+						#end
+					#end
+
+	            </li>
+	            <li>
+	                <a href="/other/help" title="帮助中心" target='_blank'>帮助中心</a>
+	            </li>
+	            #if(isLogin)
+				    <li>
+				      <a href="javascript:;" style="cursor:pointer;" title="提意见" id='feedback'>提意见</a>
+				    </li>
+			    #end
+	            <li class="last">
+	               <a href="http://appstochina.com" target="_blank" title="English" target='_blank'>English</a>
+	            </li>
+	      	</ul>
+		    <div id="menus">
+		        <ul>
+		          <li>
+		          	#if(isOnline)
+		          	<a href="http://www.coolchuan.com/" title="首页">首页</a>
+		          	#else
+		          	<a href="http://loc.coolchuan.com:3003/index_new" title="首页">首页</a>
+		          	#end
+		          </li>
+		          <li>
+					  #if(isOnline)
+					  <a href="http://jk.coolchuan.com" title="应用监控">应用监控</a>
+					  #else
+					  <a href="http://loc.coolchuan.com:3006/" title="应用监控">应用监控</a>
+					  #end
+
+		          </li>
+		          <li>
+		           	#if(!isLogin)
+						<a href="http://www.coolchuan.com/home/publish" title="应用发布">应用发布</a>
+					#end
+					#if(isLogin)
+						 <a href="/main/index" style="color:#006bff;" title="应用发布">应用发布</a>
+					#end
+		          <!-- <li>
+		            <a href="/main/index" title="应用发布">应用发布</a> -->
+		          </li>
+		          <li id="yingyongtuiguang" style="position:relative;">
+		            <a id="tuiguang_hover" href="http://www.coolchuan.com/aso" title="应用推广">应用推广</a>
+		            <div class="smalltri"></div>
+		            <div  class="tuiguangfuwu">
+		                  <a target="_blank" id="tuiguangfuwua1" href="http://www.coolchuan.com/expedite" style="border:none;" title="iOS快速审核">iOS快速审核</a>
+		                  <a target="_blank" href="http://www.coolchuan.com/aso" title="ASO优化服务">ASO优化服务</a>
+		                  <a target="_blank" href="http://www.coolchuan.com/daishangchuan" title="App代理上传">App代理上传</a>
+		                  <a target="_blank" style="border-bottom:1px solid #eee" href="http://www.coolchuan.com/app-promotion" title="App推广服务">App推广服务</a>
+		            </div>
+		          </li>
+		          <li id="tuiguangshouce" style="position:relative;">
+		          	<a  id="shouce_hover" target="_blank" href="http://shouce.coolchuan.com" title="推广手册">推广手册</a>
+		          	<div class="red_new" style="display: inline;">99</div>
+                    <div class="smalltri" id="smalltri" style="display: none;"></div>
+                    <div class="gengxinwenzhang"></div>
+		          </li>
+		          <li>
+		            <a href="http://www.coolchuan.com/client" title="客户端">客户端</a>
+		          </li>
+		          <li style="position:relative;">
+					  #if(isOnline)
+					  <a href="http://user.coolchuan.com/myCenter/message" title="个人中心" onclick="countIndex({type:'按钮',opra:'单击事件',label:'个人中心'})">
+						  个人中心
+					  </a>
+					  #else
+					  <a href="http://mainsite.coolchuan.com:8089/myCenter/message" title="个人中心" onclick="countIndex({type:'按钮',opra:'单击事件',label:'个人中心'})">
+						  个人中心
+					  </a>
+					  #end
+		            <span style="display:none;" class="inboxtip">3</span>
+		          </li>
+		        </ul>	      
+		 	</div>	     
+	    </div>
+	    <!-- <div class="gengxinwenzhang"></div>	 -->	
+	</div>
+</div>
+<!-- 右侧二维码 -->
+<!-- <style>
+    #ewmleft{
+        position: fixed;
+        right: 0.5%;
+        top: 50%;
+        margin-top: -95px;
+        z-index: 1000;
+    }
+    .closeewm{
+        position: absolute;
+        right: 1px;
+        bottom: -23px;
+        cursor:pointer;
+    }
+    #lewm,#rewm{position: absolute;left:10px;top:60px;}
+</style>
+
+<div id="ewmleft">
+    <img src="../static/images/erweima.jpg">
+    <div id="lewm"></div>
+    <img class="closeewm" src="../static/images/banner_close_small2.png">
+</div>
+<script>
+    var closeLeft=document.getElementById('ewmleft').getElementsByTagName('img')[1];
+    closeLeft.onclick=function(){
+        document.getElementById('ewmleft').style.display='none';
+    }
+</script>  -->
+<style>
+    #fixpromote1{
+	    background: url(../static/images/online_contact.png) no-repeat;
+		position: fixed;
+		background-position: 0px 0;
+		bottom: 110px;
+		right: 20px;
+		width:0px;
+		height: 62px;
+		}
+	#fixpromote_box dl{
+		background: url(../static/images/online_contact.png) no-repeat;
+		background-position:0px -80px;
+		height: 62px;
+		width: 97px;
+		position: fixed;
+		bottom: 183px;
+		right: 20px;
+		display: none;
+	}
+	#fixpromote1 a{
+		display: block;
+		bottom: 110px;
+		right: 20px;
+		z-index: 1000;
+		width: 50px;
+		height: 62px;
+	}
+	.close_contact{
+		display: block;
+		background:url(../static/images/online_contact.png) no-repeat;
+		width: 17px;
+		height: 17px;
+        background-position: 0 -63px;
+        right: 17px;
+        bottom: 235px;
+        cursor:pointer;
+        position: fixed;
+    }
+</style>
+
+<div id="fixpromote_box">
+      <div id="fixpromote1">
+      	<a href="javascript:void(0)" id="WPAFIXQQservice" onclick='_czc.push(["_trackEvent", "主站-右上角","WPAQQ"]);'></a>
+      </div>
+      <dl id="online_tip"> 
+        <span class="close_contact"></span>
+      </dl>    
+</div>
+<script src='../static/js/jquery-1.11.2.min.js'></script>
+<script src='../static/js/jquery.easing.1.3.js'></script>
+<script>
+	$('#fixpromote1').animate({ width:'50px'}, 600, 'easeOutBounce');
+	window.onload=function(){				
+	    $('.close_contact').click(function(){
+	   	    $('#online_tip').hide();
+	    });
+		showTip(1);
+	}
+</script> 
